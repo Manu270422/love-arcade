@@ -1,7 +1,7 @@
 // ==========================================================
 // 🎵 CONFIGURACIÓN DE AUDIO MATCH-3
 // ==========================================================
-const match3Music = new Audio('/games/match3/musica-match3.mp3');
+const match3Music = new Audio('games/match3/musica-match3.mp3');
 match3Music.loop = true;
 match3Music.volume = 0.4;
 
@@ -16,11 +16,11 @@ let isProcessing = false; // Bloquea clics mientras caen piezas
 
 // 🖼️ Nuestras fotos (Rutas absolutas)
 const images = [
-    '/games/match3/foto1.png',
-    '/games/match3/foto2.png',
-    '/games/match3/foto3.png',
-    '/games/match3/foto4.png',
-    '/games/match3/foto5.png'
+    'games/match3/foto1.png',
+    'games/match3/foto2.png',
+    'games/match3/foto3.png',
+    'games/match3/foto4.png',
+    'games/match3/foto5.png'
 ];
 
 // ==========================================================

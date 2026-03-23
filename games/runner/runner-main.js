@@ -51,10 +51,10 @@ const imgBg = new Image();
 
 const cargarImagenes = () => {
     const imagenes = [
-        { img: imgPlayer, src: '/games/runner/player.png' },
-        { img: imgHeart,  src: '/games/runner/heart.png' },
-        { img: imgObs,    src: '/games/runner/obstacle.png' },
-        { img: imgBg,     src: '/games/runner/background.jpg' }
+        { img: imgPlayer, src: 'games/runner/player.png' },
+        { img: imgHeart,  src: 'games/runner/heart.png' },
+        { img: imgObs,    src: 'games/runner/obstacle.png' },
+        { img: imgBg,     src: 'games/runner/background.jpg' }
     ];
 
     const promesas = imagenes.map(item => {
