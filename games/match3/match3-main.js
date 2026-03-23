@@ -12,7 +12,7 @@ const scoreElement = document.getElementById("match3-score");
 let score = 0;
 let board = [];
 let firstSelection = null;
-let isProcessing = false; // Bloquea clics mientras caen piezas
+let isProcessing = false; 
 
 // 🖼️ Nuestras fotos (Rutas absolutas)
 const images = [
@@ -28,8 +28,8 @@ const images = [
 // ==========================================================
 
 function initBoard() {
-    // 🎶 Intentar iniciar música (requiere una interacción previa en la web)
-    match3Music.play().catch(e => console.log("Esperando interacción para sonar música de fondo:", e));
+    // Intentar play inicial (fallará casi siempre, pero se queda en cola)
+    match3Music.play().catch(e => console.log("Audio esperando interacción del usuario."));
 
     score = 0;
     updateHUD();
@@ -40,7 +40,7 @@ function initBoard() {
         board[r] = [];
         for (let c = 0; c < boardSize; c++) {
             let randomImg;
-            // Evitar que el tablero empiece con matches automáticos
+            // Evitar matches automáticos al inicio
             do {
                 randomImg = images[Math.floor(Math.random() * images.length)];
             } while (
@@ -66,42 +66,55 @@ function initBoard() {
 }
 
 // ==========================================================
-// 🕹️ LÓGICA DE INTERACCIÓN
+// 🕹️ LÓGICA DE INTERACCIÓN (Actualizada con Audio Fix)
 // ==========================================================
 
 async function handleCellClick(r, c) {
     if (isProcessing) return;
 
-    // Si la música no ha empezado por bloqueo del navegador, la activamos al primer clic
-    if (match3Music.paused) match3Music.play().catch(() => {});
+    // ✨ TRUCO PRO: Forzar el play al primer toque si el navegador bloqueó el inicio
+    if (match3Music.paused) {
+        match3Music.play().catch(() => {});
+    }
 
     const currentCell = document.getElementById(`cell-${r}-${c}`);
 
     if (!firstSelection) {
+        // Primera selección
         firstSelection = { r, c };
         currentCell.classList.add("selected");
     } else {
+        // Segunda selección
         const r1 = firstSelection.r;
         const c1 = firstSelection.c;
         const r2 = r;
         const c2 = c;
 
-        // Quitar selección visual
+        // Quitar selección visual inmediatamente
         document.getElementById(`cell-${r1}-${c1}`).classList.remove("selected");
+
+        // Verificar si son la misma celda (cancelar selección)
+        if (r1 === r2 && c1 === c2) {
+            firstSelection = null;
+            return;
+        }
 
         // Verificar si son adyacentes
         const isAdjacent = Math.abs(r1 - r2) + Math.abs(c1 - c2) === 1;
 
         if (isAdjacent) {
             isProcessing = true;
+            
+            // Intercambiar piezas
             await swapPieces(r1, c1, r2, c2);
             
+            // Comprobar si hay match
             if (!checkAndRemoveMatches()) {
-                // Si no hay match, regresan a su sitio (Animación de error)
+                // Si no hay match, regresan a su sitio tras un breve delay
                 await new Promise(res => setTimeout(res, 300));
                 await swapPieces(r1, c1, r2, c2);
             } else {
-                // Si hay match, procesar cascada de piezas
+                // Si hay match, procesar cascada de piezas y nuevos matches
                 await processBoard();
             }
             isProcessing = false;
@@ -125,7 +138,7 @@ function renderCell(r, c) {
         cell.querySelector("img").src = board[r][c];
         cell.style.opacity = "1";
     } else if (cell) {
-        cell.style.opacity = "0"; // Celda vacía temporalmente
+        cell.style.opacity = "0.2"; // Feedback visual de que la pieza se fue
     }
 }
 
@@ -136,7 +149,7 @@ function renderCell(r, c) {
 function checkAndRemoveMatches() {
     let toRemove = new Set();
 
-    // Horizontal
+    // Detección Horizontal
     for (let r = 0; r < boardSize; r++) {
         for (let c = 0; c < boardSize - 2; c++) {
             if (board[r][c] && board[r][c] === board[r][c+1] && board[r][c] === board[r][c+2]) {
@@ -147,7 +160,7 @@ function checkAndRemoveMatches() {
         }
     }
 
-    // Vertical
+    // Detección Vertical
     for (let c = 0; c < boardSize; c++) {
         for (let r = 0; r < boardSize - 2; r++) {
             if (board[r][c] && board[r][c] === board[r+1][c] && board[r][c] === board[r+2][c]) {
@@ -170,7 +183,7 @@ function checkAndRemoveMatches() {
         updateHUD();
         
         if (score >= 300) {
-            setTimeout(endGame, 500); // Pequeña espera para ver el último match
+            setTimeout(endGame, 600);
             return true;
         }
         return true;
@@ -179,9 +192,10 @@ function checkAndRemoveMatches() {
 }
 
 async function processBoard() {
+    // Esperar a que la animación de "pop" termine
     await new Promise(res => setTimeout(res, 400));
     
-    // 1. Caída de piezas existentes
+    // 1. Gravedad: Las piezas caen
     for (let c = 0; c < boardSize; c++) {
         let emptySpaces = 0;
         for (let r = boardSize - 1; r >= 0; r--) {
@@ -192,13 +206,13 @@ async function processBoard() {
                 board[r][c] = null;
             }
         }
-        // 2. Generar nuevas piezas en la parte superior
+        // 2. Nuevas piezas desde arriba
         for (let r = 0; r < emptySpaces; r++) {
             board[r][c] = images[Math.floor(Math.random() * images.length)];
         }
     }
     
-    // Limpiar clases de animación y renderizar tablero actualizado
+    // Limpiar clases de animación y re-renderizar todo
     const cells = document.querySelectorAll(".match3-cell");
     cells.forEach(cell => cell.classList.remove("match-pop"));
     
@@ -206,7 +220,7 @@ async function processBoard() {
         for (let c = 0; c < boardSize; c++) renderCell(r, c);
     }
 
-    // 3. Verificar si la caída generó nuevos combos (recursivo)
+    // 3. ¿La caída generó nuevos combos? (Recursión)
     if (checkAndRemoveMatches()) {
         await processBoard();
     }
@@ -221,13 +235,12 @@ function updateHUD() {
 }
 
 function endGame() {
-    // 🎶 Cambio de ambiente musical
     match3Music.pause(); 
-    match3Music.currentTime = 0; // Reiniciar por si acaso
+    match3Music.currentTime = 0;
 
-    const victorySound = new Audio('/games/match3/victoria.mp3');
+    const victorySound = new Audio('games/match3/victoria.mp3');
     victorySound.volume = 0.6;
-    victorySound.play().catch(e => console.log("Error al reproducir sonido de victoria:", e));
+    victorySound.play().catch(() => {});
     
     desbloquearMensajeEspecial();
 }
@@ -248,5 +261,5 @@ function desbloquearMensajeEspecial() {
     `;
 }
 
-// Iniciar tablero por primera vez
+// Arrancar motor
 initBoard();

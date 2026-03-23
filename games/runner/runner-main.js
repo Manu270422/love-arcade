@@ -1,7 +1,7 @@
 // ==========================================================
 // 🎵 CONFIGURACIÓN DE AUDIO INICIAL
 // ==========================================================
-const bgMusic = new Audio('/games/runner/musica-romantica.mp3');
+const bgMusic = new Audio('games/runner/musica-romantica.mp3');
 bgMusic.loop = true;
 bgMusic.volume = 0.4; 
 
@@ -283,7 +283,7 @@ function desbloquearRecuerdo() {
             <h2 style="color: #ffd700; font-size: 2.5rem; text-shadow: 0 0 10px rgba(255,215,0,0.5);">¡Lo lograste, mi amor! 💛</h2>
             <p style="font-size: 1.2rem; margin-bottom: 10px;">Has ganado nuestro recuerdo especial:</p>
             <div style="position: relative; display: inline-block;">
-                <img src="/games/runner/tu-y-yo.jpg" style="width:100%; max-width: 400px; border: 5px solid #ffd700; border-radius:15px; margin: 10px 0; box-shadow: 0 0 30px #ffd700;">
+                <img src="games/runner/tu-y-yo.jpg" style="width:100%; max-width: 400px; border: 5px solid #ffd700; border-radius:15px; margin: 10px 0; box-shadow: 0 0 30px #ffd700;">
             </div>
             <p style="font-size: 1.6rem; font-style: italic; margin-top: 15px;">"Eres el mejor gol de mi vida"</p>
             <button onclick="location.reload()" style="margin-top:25px; padding:15px 40px; font-size:1.2rem; cursor:pointer; background:linear-gradient(45deg, #ffd700, #ffcc00); border:none; border-radius:30px; font-weight:bold; color:black; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">Volver al menú</button>

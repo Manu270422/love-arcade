@@ -97,7 +97,7 @@ async function loadGame(game) {
  * 🎵 Control de Audio Global
  */
 let musicOn = false;
-let globalBgMusic = new Audio('/assets/music/ambient-love.mp3'); // Ruta de tu música de fondo del HUB
+let globalBgMusic = new Audio('assets/music/ambient-love.mp3'); // Ruta de tu música de fondo del HUB
 globalBgMusic.loop = true;
 
 function toggleMusic() {
