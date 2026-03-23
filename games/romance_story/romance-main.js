@@ -1,6 +1,6 @@
 // ==========================================================
 // 🎵 CONFIGURACIÓN DE AUDIO NOVELA VISUAL
-// ==========================================
+// ==========================================================
 const romanceMusic = new Audio('games/romance_story/assets/music/historia-amor.mp3');
 romanceMusic.loop = true;
 romanceMusic.volume = 0.5;
@@ -50,7 +50,7 @@ const scenes = {
 };
 
 // ==========================================================
-// ⚙️ MOTOR DE JUEGO (CORREGIDO Y REFORZADO)
+// ⚙️ MOTOR DE JUEGO (OPTIMIZADO PARA MÓVIL)
 // ==========================================================
 
 let typingInterval; 
@@ -59,22 +59,29 @@ function showScene(sceneKey) {
     const scene = scenes[sceneKey];
     if (!scene) return;
 
-    // 🔥 FIX: Forzamos la carga de música tras la interacción
+    // 🔥 Inicio de música por interacción
     if (romanceMusic.paused) {
         romanceMusic.play().catch(e => console.log("Esperando clic para audio..."));
     }
 
-    // 🖼️ FIX MAESTRO: URL limpia con comillas para evitar errores de ruta
+    // 🖼️ AJUSTE DE SEGURIDAD: Imagen perfecta en cualquier pantalla
     backgroundElement.style.backgroundImage = `url('${scene.background}')`;
+    backgroundElement.style.backgroundSize = "cover";             // ✅ Llena la pantalla
+    backgroundElement.style.backgroundPosition = "center center"; // ✅ Centra la acción
+    backgroundElement.style.backgroundRepeat = "no-repeat";
 
     optionsElement.innerHTML = "";
 
     typeWriter(scene.text, () => {
-        // Mostrar opciones solo si la escena las tiene
+        // Mostrar opciones con diseño amigable para pulgares
         if (scene.options && scene.options.length > 0) {
             scene.options.forEach(option => {
                 const btn = document.createElement("button");
                 btn.textContent = option.text;
+                // Estilo extra para asegurar que en móvil sean fáciles de tocar
+                btn.style.width = "100%"; 
+                btn.style.marginBottom = "10px";
+                
                 btn.onclick = () => showScene(option.next);
                 optionsElement.appendChild(btn);
             });
@@ -84,7 +91,7 @@ function showScene(sceneKey) {
         if (sceneKey.startsWith("recuerdoEspecial")) {
             setTimeout(() => {
                 desbloquearRecuerdoEspecial(sceneKey);
-            }, 1200); // Pausa dramática para lectura
+            }, 1200);
         }
     });
 }
@@ -105,7 +112,7 @@ function typeWriter(text, callback) {
 }
 
 // ==========================================================
-// 🏆 SISTEMA DE RECOMPENSAS: LA CARTA DE AMOR
+// 🏆 SISTEMA DE RECOMPENSAS: INGENIERO ROMÁNTICO
 // ==========================================================
 
 function desbloquearRecuerdoEspecial(key) {
@@ -117,42 +124,35 @@ function desbloquearRecuerdoEspecial(key) {
     
     const heart = document.createElement('i');
     heart.className = 'fas fa-heart floating-heart';
-    heart.style.cursor = 'pointer';
+    heart.style.cursor = 'pointer'; 
     overlay.appendChild(heart);
     
-    const cartaContenido = {
+    const cartas = {
         'recuerdoEspecial1': {
-            titulo: "Mi primer pensamiento...",
-            mensaje: "Desde aquel día en que nuestras miradas se cruzaron, supe que mi vida no volvería a ser la misma. Gracias por ser mi aventura favorita. Te amo con todo mi corazón."
+            titulo: "Mi primer pensamiento",
+            mensaje: "Desde el momento en que entraste en mi vida, supe que quería coleccionar cada atardecer a tu lado. Gracias por ser mi lugar seguro. ❤️"
         },
         'recuerdoEspecial2': {
-            titulo: "Nuestra Promesa",
-            mensaje: "No importa hacia dónde nos lleve el futuro, mi única certeza es que quiero ir de tu mano. Eres mi hogar, mi paz y mi mayor alegría. ¡Por mil años más juntos!"
+            titulo: "Nuestra Eterna Promesa",
+            mensaje: "Prometo cuidarte, escucharte y amarte en cada fase de nuestra historia. Eres mi mayor tesoro y mi sueño hecho realidad. ¡Te amo! ♾️"
         }
     };
 
-    const data = cartaContenido[key] || cartaContenido['recuerdoEspecial1'];
+    const data = cartas[key] || cartas['recuerdoEspecial1'];
 
     heart.onclick = () => {
-        // Efecto de explosión del corazón
-        heart.style.transition = "transform 0.5s ease, opacity 0.5s ease";
-        heart.style.transform = "scale(8)";
-        heart.style.opacity = "0";
+        heart.style.display = 'none';
         
-        setTimeout(() => {
-            heart.style.display = 'none';
-            
-            const letter = document.createElement('div');
-            letter.className = 'love-letter';
-            letter.innerHTML = `
-                <h2 style="color: #ff4d6d; margin-bottom: 15px; font-family: 'Pacifico', cursive;">${data.titulo}</h2>
-                <p style="color: #444; line-height: 1.6; font-size: 1.1rem; font-style: italic;">${data.mensaje}</p>
-                <button onclick="location.reload()" style="margin-top:20px; padding:12px 25px; background:linear-gradient(45deg, #ff4d6d, #ff85a2); color:white; border:none; border-radius:25px; cursor:pointer; width:100%; font-weight:bold; box-shadow: 0 4px 10px rgba(255, 77, 109, 0.3);">
-                    Volver al Menú ❤️
-                </button>
-            `;
-            overlay.appendChild(letter);
-        }, 500);
+        const letter = document.createElement('div');
+        letter.className = 'love-letter';
+        letter.innerHTML = `
+            <h2 style="font-family: 'Pacifico', cursive;">${data.titulo}</h2>
+            <p style="font-size: 1.1rem; line-height: 1.6;">${data.mensaje}</p>
+            <button onclick="location.reload()" style="margin-top:25px; padding:15px 30px; background:#ff4d6d; color:white; border:none; border-radius:30px; cursor:pointer; font-weight:bold; font-family: 'Poppins'; width: 100%; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);">
+                Volver a nuestro mundo ❤️
+            </button>
+        `;
+        overlay.appendChild(letter);
     };
 
     gameContainer.appendChild(overlay);
