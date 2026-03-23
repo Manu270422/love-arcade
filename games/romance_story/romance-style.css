@@ -1,54 +1,60 @@
 /* ==========================================================
-   🌸 ESTILO PARA LA NOVELA VISUAL
+   🌸 ESTILO PARA LA NOVELA VISUAL (FULLSCREEN FIX)
    ========================================================== */
 
 #romance-game {
-    position: relative;
-    width: 100%;
-    height: 100%;
+    position: fixed;    /* Flota sobre absolutamente todo */
+    top: 0;
+    left: 0;
+    width: 100vw;       /* 100% del ancho de la ventana */
+    height: 100vh;      /* 100% del alto de la ventana */
+    z-index: 9999;      /* Prioridad máxima sobre el HUB */
+    background-color: #000; 
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
-    background-color: #000;
-       Subimos el nivel de la capa para que se vea sobre el HUB */
-    z-index: 10; 
+    font-family: 'Poppins', sans-serif;
 }
 
 #romance-background {
     position: absolute;
-    top: 0; 
+    top: 0;
     left: 0;
-    width: 100%; 
+    width: 100%;
     height: 100%;
     background-size: cover;
     background-position: center;
-    transition: background-image 1s ease;
-    /* Mantenemos el fondo del juego detrás de sus propios textos (UI) */
-    z-index: -1; 
+    background-repeat: no-repeat;
+    z-index: 1;         /* Capa base del juego */
+    transition: background-image 1s ease-in-out;
 }
 
 #romance-dialogue {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    box-sizing: border-box;
-    background: rgba(0, 0, 0, 0.6); /* Un poco más oscuro para mejor contraste */
-    border-top: 3px solid #ffd700;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    bottom: 30px;       /* Un poco más de margen inferior */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 800px;
+    min-height: 160px;
+    background: rgba(0, 0, 0, 0.75); /* Oscurecemos para legibilidad pro */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 2px solid #ffd700;
+    border-radius: 20px;
     padding: 25px;
-    font-family: 'Poppins', sans-serif;
+    z-index: 2;         /* Encima del fondo */
+    box-sizing: border-box;
     color: #fff;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-    animation: slideUpDialogue 0.5s ease-out;
-    /* Aseguramos que la UI del juego esté por delante de su propio fondo */
-    z-index: 5;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    animation: slideUpDialogue 0.6s ease-out;
 }
 
 #romance-text {
-    font-size: 1.2rem;
-    line-height: 1.5;
+    font-size: 1.25rem;
+    line-height: 1.6;
     margin-bottom: 20px;
-    min-height: 70px;
+    min-height: 60px;
 }
 
 #romance-options {
@@ -62,11 +68,10 @@
     background: rgba(255, 255, 255, 0.15);
     border: 2px solid #ff69b4;
     border-radius: 12px;
-    padding: 10px 20px;
+    padding: 10px 22px;
     color: #fff;
-    font-family: 'Poppins', sans-serif;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     backdrop-filter: blur(5px);
@@ -75,7 +80,7 @@
 #romance-options button:hover {
     background: #ff69b4;
     border-color: #ffd700;
-    transform: translateY(-3px) scale(1.02);
+    transform: translateY(-3px) scale(1.05);
     box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
 }
 
@@ -87,12 +92,11 @@
     left: 0;
     width: 100%; 
     height: 100%;
-    background: rgba(0, 0, 0, 0.9); /* Más oscuro para el momento especial */
+    background: rgba(0, 0, 0, 0.92); 
     display: flex;
     justify-content: center;
     align-items: center;
-    /* Encima de todo lo demás del juego */
-    z-index: 100; 
+    z-index: 100; /* Por encima del diálogo */
     animation: fadeIn 1s forwards;
 }
 
@@ -100,51 +104,51 @@
     font-size: 10rem;
     color: #ff4d6d;
     cursor: pointer;
-    filter: drop-shadow(0 0 20px #ff4d6d);
+    filter: drop-shadow(0 0 30px #ff4d6d);
     animation: pulseHeart 1.5s infinite;
-    transition: transform 0.3s;
-}
-
-.floating-heart:hover { 
-    transform: scale(1.2); 
 }
 
 .love-letter {
     width: 85%;
-    max-width: 500px;
+    max-width: 450px;
     background: #fff0f3;
-    padding: 30px;
-    border-radius: 15px;
-    position: relative;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    padding: 35px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
     color: #333;
-    font-family: 'Poppins', sans-serif;
-    text-align: center; /* Centramos para que la carta se vea pro */
-    animation: slideUpDialogue 0.8s forwards;
+    animation: letterPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 .love-letter h2 { 
     font-family: 'Pacifico', cursive; 
     color: #ff4d6d; 
-    margin-bottom: 15px; 
+    font-size: 2rem;
+    margin-bottom: 20px; 
 }
 
 .love-letter p { 
-    line-height: 1.6; 
-    font-size: 1.05rem; 
-    font-style: italic; 
+    line-height: 1.7; 
+    font-size: 1.1rem; 
+    font-style: italic;
+    margin-bottom: 25px;
 }
 
 /* --- 🎭 ANIMACIONES --- */
 
 @keyframes slideUpDialogue {
-    from { transform: translateY(100%); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+    from { transform: translate(-50%, 100%); opacity: 0; }
+    to { transform: translate(-50%, 0); opacity: 1; }
+}
+
+@keyframes letterPop {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }
 
 @keyframes pulseHeart {
     0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
+    50% { transform: scale(1.15); }
     100% { transform: scale(1); }
 }
 

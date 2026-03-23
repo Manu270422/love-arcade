@@ -1,6 +1,6 @@
 // ==========================================================
 // 🎵 CONFIGURACIÓN DE AUDIO NOVELA VISUAL
-// ==========================================================
+// ==========================================
 const romanceMusic = new Audio('games/romance_story/assets/music/historia-amor.mp3');
 romanceMusic.loop = true;
 romanceMusic.volume = 0.5;
@@ -14,7 +14,7 @@ const backgroundElement = document.getElementById("romance-background");
 
 const scenes = {
     start: {
-        text: "Es una tarde tranquila... el sol se oculta y piensas en todo lo que han vivido juntos.",
+        text: "Es una tarde tranquila... el sol se oculta y piensas en todo lo que hemos vivido juntos.",
         background: "games/romance_story/assets/img/atardecer.jpg",
         options: [
             { text: "Recordar el primer encuentro", next: "encuentro" },
@@ -22,7 +22,7 @@ const scenes = {
         ]
     },
     encuentro: {
-        text: "Recuerdas aquel día en que sus miradas se cruzaron por primera vez. El mundo se detuvo.",
+        text: "Recuerdas aquel día en que nuestras miradas se cruzaron por primera vez. El mundo se detuvo.",
         background: "games/romance_story/assets/img/primer_encuentro.jpg",
         options: [
             { text: "Sonreír al recuerdo", next: "recuerdoEspecial1" },
@@ -30,7 +30,7 @@ const scenes = {
         ]
     },
     futuro: {
-        text: "Imaginan un futuro lleno de viajes, risas y momentos inolvidables. El corazón late más fuerte.",
+        text: "Imaginemos un futuro lleno de viajes, risas y momentos inolvidables. El corazón late más fuerte.",
         background: "games/romance_story/assets/img/futuro.jpg",
         options: [
             { text: "Prometer estar siempre juntos", next: "recuerdoEspecial2" },
@@ -38,19 +38,19 @@ const scenes = {
         ]
     },
     recuerdoEspecial1: {
-        text: "Ese recuerdo desbloquea una foto especial que guardaste solo para ella. ¡Eres lo mejor que me ha pasado!",
+        text: "Este recuerdo desbloquea una foto especial que guardé solo para ti. ¡Eres lo mejor que me ha pasado!",
         background: "games/romance_story/assets/img/recuerdo1.jpg",
-        options: [] // Se dejan vacías porque el overlay tomará el control
+        options: [] 
     },
     recuerdoEspecial2: {
-        text: "Tu promesa desbloquea un video único que simboliza su historia de amor. Gracias por soñar conmigo.",
+        text: "Tu promesa desbloquea un video único que simboliza nuestra historia de amor. Gracias por soñar conmigo.",
         background: "games/romance_story/assets/img/recuerdo2.jpg",
-        options: [] // Se dejan vacías porque el overlay tomará el control
+        options: [] 
     }
 };
 
 // ==========================================================
-// ⚙️ MOTOR DE JUEGO
+// ⚙️ MOTOR DE JUEGO (CORREGIDO Y REFORZADO)
 // ==========================================================
 
 let typingInterval; 
@@ -59,15 +59,18 @@ function showScene(sceneKey) {
     const scene = scenes[sceneKey];
     if (!scene) return;
 
+    // 🔥 FIX: Forzamos la carga de música tras la interacción
     if (romanceMusic.paused) {
-        romanceMusic.play().catch(e => console.log("Audio esperando interacción..."));
+        romanceMusic.play().catch(e => console.log("Esperando clic para audio..."));
     }
 
-    backgroundElement.style.backgroundImage = `url(${scene.background})`;
+    // 🖼️ FIX MAESTRO: URL limpia con comillas para evitar errores de ruta
+    backgroundElement.style.backgroundImage = `url('${scene.background}')`;
+
     optionsElement.innerHTML = "";
 
     typeWriter(scene.text, () => {
-        // Generar botones solo si existen opciones
+        // Mostrar opciones solo si la escena las tiene
         if (scene.options && scene.options.length > 0) {
             scene.options.forEach(option => {
                 const btn = document.createElement("button");
@@ -77,11 +80,11 @@ function showScene(sceneKey) {
             });
         }
 
-        // Si es un recuerdo especial, disparamos la "Obra de Arte"
+        // Si es un final/recuerdo especial, activar el overlay
         if (sceneKey.startsWith("recuerdoEspecial")) {
             setTimeout(() => {
                 desbloquearRecuerdoEspecial(sceneKey);
-            }, 1000); // Pequeña pausa para que termine de leer el texto
+            }, 1200); // Pausa dramática para lectura
         }
     });
 }
@@ -109,17 +112,14 @@ function desbloquearRecuerdoEspecial(key) {
     const gameContainer = document.getElementById('romance-game');
     if (!gameContainer) return;
     
-    // 1. Creamos el overlay oscuro (Asegúrate de tener el CSS para .special-overlay)
     const overlay = document.createElement('div');
     overlay.className = 'special-overlay';
     
-    // 2. Creamos el corazón gigante latiendo
     const heart = document.createElement('i');
     heart.className = 'fas fa-heart floating-heart';
     heart.style.cursor = 'pointer';
     overlay.appendChild(heart);
     
-    // 3. Contenido de las cartas
     const cartaContenido = {
         'recuerdoEspecial1': {
             titulo: "Mi primer pensamiento...",
@@ -133,10 +133,10 @@ function desbloquearRecuerdoEspecial(key) {
 
     const data = cartaContenido[key] || cartaContenido['recuerdoEspecial1'];
 
-    // 4. Interacción: Al hacer clic en el corazón, aparece la carta
     heart.onclick = () => {
+        // Efecto de explosión del corazón
         heart.style.transition = "transform 0.5s ease, opacity 0.5s ease";
-        heart.style.transform = "scale(5)";
+        heart.style.transform = "scale(8)";
         heart.style.opacity = "0";
         
         setTimeout(() => {
@@ -146,7 +146,7 @@ function desbloquearRecuerdoEspecial(key) {
             letter.className = 'love-letter';
             letter.innerHTML = `
                 <h2 style="color: #ff4d6d; margin-bottom: 15px; font-family: 'Pacifico', cursive;">${data.titulo}</h2>
-                <p style="color: #444; line-height: 1.6; font-size: 1.1rem;">${data.mensaje}</p>
+                <p style="color: #444; line-height: 1.6; font-size: 1.1rem; font-style: italic;">${data.mensaje}</p>
                 <button onclick="location.reload()" style="margin-top:20px; padding:12px 25px; background:linear-gradient(45deg, #ff4d6d, #ff85a2); color:white; border:none; border-radius:25px; cursor:pointer; width:100%; font-weight:bold; box-shadow: 0 4px 10px rgba(255, 77, 109, 0.3);">
                     Volver al Menú ❤️
                 </button>
@@ -158,5 +158,5 @@ function desbloquearRecuerdoEspecial(key) {
     gameContainer.appendChild(overlay);
 }
 
-// Iniciar juego
+// Iniciar el motor
 showScene("start");
