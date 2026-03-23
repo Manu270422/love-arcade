@@ -30,8 +30,8 @@ const player = {
     width: 60, 
     height: 60, 
     dy: 0,
-    gravity: 0.6, // Gravedad más suave (antes 0.8) para saltos más "flotantes"
-    jump: -15,    // Salto ajustado a la nueva gravedad
+    gravity: 0.6, // Gravedad suave para saltos flotantes
+    jump: -15,    
     grounded: true,
     rotation: 0
 };
@@ -42,7 +42,7 @@ let hearts = [];
 let particles = [];
 
 // ==========================================================
-// 🖼️ SISTEMA DE PRE-CARGA DE IMÁGENES PROFESIONAL
+// 🖼️ SISTEMA DE PRE-CARGA DE IMÁGENES
 // ==========================================================
 const imgPlayer = new Image();
 const imgHeart = new Image();
@@ -61,7 +61,7 @@ const cargarImagenes = () => {
         return new Promise((resolve, reject) => {
             item.img.onload = () => resolve();
             item.img.onerror = () => {
-                console.error(`❌ Error fatal: No se pudo cargar la imagen en: ${item.src}`);
+                console.error(`❌ Error fatal: No se pudo cargar ${item.src}`);
                 reject();
             };
             item.img.src = item.src; 
@@ -101,7 +101,7 @@ function startGame() {
     if(startScreen) startScreen.style.display = "none";
     
     bgMusic.play().catch(error => {
-        console.log("El navegador requiere interacción previa para el audio:", error);
+        console.log("Esperando interacción para el audio...");
     });
     
     gameStarted = true;
@@ -154,9 +154,9 @@ function update() {
         ctx.restore();
     }
 
-    // 3. GENERAR OBJETOS (Con Cooldown de Obstáculos)
+    // 3. GENERAR OBJETOS
     obstacleTimer++;
-    if (obstacleTimer > 100) { // Espera mínima de ~1.5 seg
+    if (obstacleTimer > 100) { 
         if (Math.random() < 0.02) {
             spawnObstacle();
             obstacleTimer = 0; 
@@ -165,10 +165,10 @@ function update() {
 
     if (Math.random() < 0.015) spawnHeart();
 
-    // 4. LÓGICA DE OBSTÁCULOS (Velocidad reducida e Invencibilidad)
+    // 4. LÓGICA DE OBSTÁCULOS
     for (let i = obstacles.length - 1; i >= 0; i--) {
         let o = obstacles[i];
-        o.x -= 6; // Velocidad más tranquila (antes 7)
+        o.x -= 6; 
         ctx.drawImage(imgObs, o.x, o.y, o.size, o.size);
 
         if (checkCollision(player, o) && !invencible) {
@@ -181,8 +181,7 @@ function update() {
             if (lives <= 0) {
                 endGame(false);
             } else {
-                // Timer de paz: 2 segundos de inmunidad
-                setTimeout(() => { invencible = false; }, 2000);
+                setTimeout(() => { invencible = false; }, 2000); // 2 seg de paz
             }
         }
         if (o.x + o.size < 0) obstacles.splice(i, 1);
@@ -223,7 +222,7 @@ function spawnHeart() {
 }
 
 function checkCollision(p, obj) {
-    const margin = 22; // Hitbox MUY generosa. El juego le perdona casi todo.
+    const margin = 22; // Hitbox muy generosa
     return p.x + margin < obj.x + obj.size &&
            p.x + p.width - margin > obj.x &&
            p.y + margin < obj.y + obj.size &&
@@ -274,6 +273,7 @@ function endGame(win) {
     }
 }
 
+// ✨ FUNCIÓN ACTUALIZADA: DESBLOQUEAR RECUERDO
 function desbloquearRecuerdo() {
     const container = document.getElementById('runner-game');
     if (!container) return;
