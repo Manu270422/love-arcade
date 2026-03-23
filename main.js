@@ -1,6 +1,6 @@
 /**
  * 🎮 Sistema de Navegación Dinámica Pro
- * Carga cualquier juego (Runner, Match-3, etc.) de forma modular.
+ * Carga cualquier juego (Runner, Match-3, Novela, etc.) de forma modular.
  */
 
 async function loadGame(game) {
@@ -16,7 +16,14 @@ async function loadGame(game) {
         </div>
     `;
 
-    // Definimos las rutas según el juego
+    // Detener música del HUB si está sonando para no solapar audios
+    if (musicOn) {
+        globalBgMusic.pause();
+    }
+
+    // ==========================================================
+    // 🗺️ DICCIONARIO DE RUTAS (ACTUALIZADO)
+    // ==========================================================
     const gamePaths = {
         'runner': {
             html: 'games/runner/runner-template.html',
@@ -29,6 +36,12 @@ async function loadGame(game) {
             css: 'games/match3/match3-style.css',
             js: 'games/match3/match3-main.js',
             id: 'match3-style'
+        },
+        'romance_story': {
+            html: 'games/romance_story/romance-template.html',
+            css: 'games/romance_story/romance-style.css',
+            js: 'games/romance_story/romance-main.js',
+            id: 'romance-style'
         }
     };
 
@@ -55,14 +68,14 @@ async function loadGame(game) {
             document.head.appendChild(link);
 
             // 4. Inyección del Script del Juego
-            // Borramos scripts anteriores del mismo juego para evitar conflictos de variables
+            // Borramos scripts anteriores del mismo juego para evitar conflictos
             const oldScript = document.querySelector(`script[src="${selectedGame.js}"]`);
             if (oldScript) oldScript.remove();
 
             const script = document.createElement('script');
             script.src = selectedGame.js;
             script.type = 'text/javascript';
-            // Importante: No usar defer aquí para que cargue justo después del HTML
+            // Insertamos el script al final del body para asegurar que el DOM del juego ya existe
             document.body.appendChild(script);
 
             console.log(`🚀 Juego [${game.toUpperCase()}] cargado con éxito.`);
@@ -73,6 +86,7 @@ async function loadGame(game) {
                 <div style="text-align:center; padding: 80px; color: white; font-family: sans-serif;">
                     <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #ff4d4d;"></i>
                     <h3 style="margin-top:20px;">¡Ups! No pudimos cargar esta parte de nuestra historia. ❤️</h3>
+                    <p>Revisa la consola para más detalles o intenta recargar.</p>
                     <button onclick="location.reload()" style="margin-top:25px; padding: 12px 25px; cursor:pointer; background:#ffd700; border:none; border-radius:20px; font-weight:bold;">
                         Volver al Inicio
                     </button>
@@ -80,7 +94,7 @@ async function loadGame(game) {
             `;
         }
     } else {
-        // Fallback para juegos no implementados
+        // Fallback para juegos no implementados o errores de nombre
         container.innerHTML = `
             <div style="text-align:center; padding: 100px; color: white;">
                 <h2 style="font-family: 'Poppins';">El juego "${game}" está en el taller de Cupido... 🛠️</h2>
@@ -94,10 +108,10 @@ async function loadGame(game) {
 }
 
 /**
- * 🎵 Control de Audio Global
+ * 🎵 Control de Audio Global (HUB)
  */
 let musicOn = false;
-let globalBgMusic = new Audio('assets/music/ambient-love.mp3'); // Ruta de tu música de fondo del HUB
+let globalBgMusic = new Audio('assets/music/ambient-love.mp3'); 
 globalBgMusic.loop = true;
 
 function toggleMusic() {
@@ -105,11 +119,11 @@ function toggleMusic() {
     const icon = document.getElementById('music-icon');
     
     if(musicOn) {
-        icon.className = 'fas fa-volume-up';
-        globalBgMusic.play().catch(e => console.log("Error al reproducir música:", e));
+        if (icon) icon.className = 'fas fa-volume-up';
+        globalBgMusic.play().catch(e => console.log("El navegador bloqueó el auto-play:", e));
         console.log("🎵 Música del Hub: ON");
     } else {
-        icon.className = 'fas fa-music';
+        if (icon) icon.className = 'fas fa-music';
         globalBgMusic.pause();
         console.log("🎵 Música del Hub: OFF");
     }
