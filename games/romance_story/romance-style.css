@@ -1,110 +1,98 @@
 /* ==========================================================
-   🌸 ESTILO PARA LA NOVELA VISUAL (ACTUALIZADO)
+   🌸 ESTILO PARA LA NOVELA VISUAL
    ========================================================== */
 
 #romance-game {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background-color: #000; /* Fondo negro de seguridad mientras carga la imagen */
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #000;
+       Subimos el nivel de la capa para que se vea sobre el HUB */
+    z-index: 10; 
 }
 
 #romance-background {
-  position: absolute;
-  top: 0; 
-  left: 0;
-  width: 100%; 
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  transition: background-image 1s ease;
-  /* ✨ MEJORA PRO: Asegura que el fondo se mantenga atrás de la UI */
-  z-index: -1; 
+    position: absolute;
+    top: 0; 
+    left: 0;
+    width: 100%; 
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: background-image 1s ease;
+    /* Mantenemos el fondo del juego detrás de sus propios textos (UI) */
+    z-index: -1; 
 }
 
 #romance-dialogue {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  box-sizing: border-box; /* Para que el padding no desborde el ancho */
-  background: rgba(0, 0, 0, 0.5); /* Oscurecemos un poco más para legibilidad */
-  border-top: 3px solid #ffd700;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px); /* Soporte para Safari */
-  padding: 25px;
-  font-family: 'Poppins', sans-serif;
-  color: #fff;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-  animation: slideUp 0.5s ease-out;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0.6); /* Un poco más oscuro para mejor contraste */
+    border-top: 3px solid #ffd700;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 25px;
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    animation: slideUpDialogue 0.5s ease-out;
+    /* Aseguramos que la UI del juego esté por delante de su propio fondo */
+    z-index: 5;
 }
 
 #romance-text {
-  font-size: 1.2rem;
-  line-height: 1.5;
-  margin-bottom: 20px;
-  min-height: 70px;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    min-height: 70px;
 }
 
 #romance-options {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  justify-content: flex-start;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
 }
 
 #romance-options button {
-  background: rgba(255, 255, 255, 0.15);
-  border: 2px solid #ff69b4;
-  border-radius: 12px;
-  padding: 10px 20px;
-  color: #fff;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  backdrop-filter: blur(5px);
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid #ff69b4;
+    border-radius: 12px;
+    padding: 10px 20px;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    backdrop-filter: blur(5px);
 }
 
 #romance-options button:hover {
-  background: #ff69b4;
-  border-color: #ffd700;
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+    background: #ff69b4;
+    border-color: #ffd700;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
 }
 
-#romance-options button:active {
-  transform: scale(0.95);
-}
+/* --- 🛡️ Estilos del Recuerdo Especial (Overlay de Victoria) --- */
 
-/* ✨ Animación de entrada para el cuadro de texto */
-@keyframes slideUp {
-  from { transform: translateY(100%); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-/* ✨ Animación suave para el texto (Typewriter effect simple) */
-.fade-in-text {
-  animation: fadeIn 0.8s ease-in;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* --- Estilos del Recuerdo Especial --- */
 .special-overlay {
     position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8);
+    top: 0; 
+    left: 0;
+    width: 100%; 
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9); /* Más oscuro para el momento especial */
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    /* Encima de todo lo demás del juego */
+    z-index: 100; 
     animation: fadeIn 1s forwards;
 }
 
@@ -117,12 +105,8 @@
     transition: transform 0.3s;
 }
 
-.floating-heart:hover { transform: scale(1.2); }
-
-@keyframes pulseHeart {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
+.floating-heart:hover { 
+    transform: scale(1.2); 
 }
 
 .love-letter {
@@ -135,16 +119,36 @@
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     color: #333;
     font-family: 'Poppins', sans-serif;
-    transform: translateY(50px);
-    opacity: 0;
-    animation: slideUp 0.8s forwards;
+    text-align: center; /* Centramos para que la carta se vea pro */
+    animation: slideUpDialogue 0.8s forwards;
 }
 
-.love-letter h2 { font-family: 'Pacifico', cursive; color: #ff4d6d; margin-bottom: 15px; }
-.love-letter p { line-height: 1.6; font-size: 1rem; font-style: italic; }
+.love-letter h2 { 
+    font-family: 'Pacifico', cursive; 
+    color: #ff4d6d; 
+    margin-bottom: 15px; 
+}
 
-@keyframes slideUp {
+.love-letter p { 
+    line-height: 1.6; 
+    font-size: 1.05rem; 
+    font-style: italic; 
+}
+
+/* --- 🎭 ANIMACIONES --- */
+
+@keyframes slideUpDialogue {
+    from { transform: translateY(100%); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
 }
 
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pulseHeart {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes fadeIn { 
+    from { opacity: 0; } 
+    to { opacity: 1; } 
+}
