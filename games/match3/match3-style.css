@@ -1,0 +1,60 @@
+#match3-game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.8s ease;
+}
+
+#match3-board {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    width: 90vw;
+    max-width: 420px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 20px;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+}
+
+.match3-cell {
+    aspect-ratio: 1 / 1;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.match3-cell.selected {
+    transform: scale(1.1);
+    border: 2px solid #ffd700;
+    box-shadow: 0 0 15px #ffd700;
+    z-index: 10;
+}
+
+.match3-cell img {
+    width: 85%;
+    height: 85%;
+    object-fit: cover;
+    border-radius: 50%; /* Fotos circulares quedan más lindas */
+    pointer-events: none;
+}
+
+/* Animación cuando desaparecen */
+.match-pop {
+    animation: popOut 0.4s forwards;
+}
+
+@keyframes popOut {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(0); opacity: 0; }
+}

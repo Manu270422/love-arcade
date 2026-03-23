@@ -1,0 +1,72 @@
+#runner-game {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #1a1a2e; /* Color de respaldo */
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+}
+
+.runner-container {
+    position: relative;
+    width: 95vw;
+    max-width: 900px;
+}
+
+#runnerCanvas {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    border: 3px solid rgba(255, 215, 0, 0.3);
+    box-shadow: 0 0 50px rgba(255, 77, 109, 0.2);
+    display: block;
+}
+
+#runnerHUD {
+    position: absolute;
+    top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    pointer-events: none;
+}
+
+.hud-item {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px 20px;
+    border-radius: 50px;
+    border: 1px solid var(--accent);
+    color: #ffd700;
+    font-weight: bold;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+#startScreen {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    color: white;
+    z-index: 10;
+}
+
+#startBtn {
+    background: linear-gradient(45deg, #ff4d6d, #ffd700);
+    border: none;
+    padding: 15px 40px;
+    border-radius: 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 5px 20px rgba(255, 77, 109, 0.4);
+    transition: 0.3s;
+}
+
+#startBtn:hover { transform: scale(1.1); filter: brightness(1.2); }
