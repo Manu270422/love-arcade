@@ -19,7 +19,7 @@ let gameOver = false;
 let gameStarted = false;
 let bgX = 0;
 
-// --- 🛡️ Variables Modo Novia ---
+// --- 🛡️ Variables Modo Novia (Dificultad Ajustada) ---
 let obstacleTimer = 0; 
 let invencible = false; 
 
@@ -30,7 +30,7 @@ const player = {
     width: 60, 
     height: 60, 
     dy: 0,
-    gravity: 0.6, // Gravedad suave para saltos flotantes
+    gravity: 0.6, 
     jump: -15,    
     grounded: true,
     rotation: 0
@@ -124,7 +124,7 @@ canvas.addEventListener("touchstart", (e) => { e.preventDefault(); jump(); }, { 
 function update() {
     if (!gameStarted || gameOver) return;
 
-    // 1. DIBUJAR FONDO INFINITO (PARALLAX)
+    // 1. DIBUJAR FONDO INFINITO
     bgX -= 2; 
     if (bgX <= -canvas.width) bgX = 0;
     ctx.drawImage(imgBg, bgX, 0, canvas.width, canvas.height);
@@ -143,7 +143,7 @@ function update() {
         player.rotation = player.dy * 0.02; 
     }
 
-    // 🧍 DIBUJAR PLAYER (Con efecto de parpadeo si es invencible)
+    // 🧍 DIBUJAR PLAYER (Parpadeo de invencibilidad)
     if (!invencible || Math.floor(Date.now() / 100) % 2) { 
         ctx.save();
         ctx.translate(player.x + player.width/2, player.y + player.height/2);
@@ -181,7 +181,7 @@ function update() {
             if (lives <= 0) {
                 endGame(false);
             } else {
-                setTimeout(() => { invencible = false; }, 2000); // 2 seg de paz
+                setTimeout(() => { invencible = false; }, 2000); 
             }
         }
         if (o.x + o.size < 0) obstacles.splice(i, 1);
@@ -222,7 +222,7 @@ function spawnHeart() {
 }
 
 function checkCollision(p, obj) {
-    const margin = 22; // Hitbox muy generosa
+    const margin = 22; 
     return p.x + margin < obj.x + obj.size &&
            p.x + p.width - margin > obj.x &&
            p.y + margin < obj.y + obj.size &&
@@ -273,20 +273,33 @@ function endGame(win) {
     }
 }
 
-// ✨ FUNCIÓN ACTUALIZADA: DESBLOQUEAR RECUERDO
+// ==========================================================
+// 🏆 FUNCIÓN ACTUALIZADA: DESBLOQUEAR RECUERDO (VICTORIA)
+// ==========================================================
 function desbloquearRecuerdo() {
-    const container = document.getElementById('runner-game');
-    if (!container) return;
+    // 1. Detenemos la música para que el momento sea especial
+    bgMusic.pause();
+
+    // 2. Buscamos el contenedor del juego
+    const gameContainer = document.getElementById('runner-game') || document.getElementById('main-container');
     
-    container.innerHTML = `
-        <div class="victory-card" style="text-align:center; animation: fadeIn 1.5s; padding: 20px; color: white;">
-            <h2 style="color: #ffd700; font-size: 2.5rem; text-shadow: 0 0 10px rgba(255,215,0,0.5);">¡Lo lograste, mi amor! 💛</h2>
-            <p style="font-size: 1.2rem; margin-bottom: 10px;">Has ganado nuestro recuerdo especial:</p>
-            <div style="position: relative; display: inline-block;">
-                <img src="games/runner/assets/tu-y-yo.jpg" style="width:100%; max-width: 400px; border: 5px solid #ffd700; border-radius:15px; margin: 10px 0; box-shadow: 0 0 30px #ffd700;">
+    if (gameContainer) {
+        gameContainer.innerHTML = `
+            <div class="victory-screen" style="text-align:center; padding: 40px; color: white; animation: fadeIn 2s;">
+                <h2 style="color: #ffd700; font-size: 2.5rem; margin-bottom: 20px; text-shadow: 0 0 10px rgba(255,215,0,0.5);">¡Lo lograste, mi amor! 💛</h2>
+                
+                <div class="photo-frame" style="display: inline-block; padding: 10px; background: white; border-radius: 15px; box-shadow: 0 0 30px rgba(255,215,0,0.6);">
+                    <img src="games/runner/assets/tu-y-yo.jpg" 
+                         style="width: 100%; max-width: 350px; border-radius: 10px; display: block;"
+                         onerror="this.src='https://via.placeholder.com/350x450?text=Te+Amo+Mucho'; console.log('Error cargando la foto real');">
+                </div>
+
+                <p style="font-size: 1.5rem; margin-top: 25px; font-style: italic; font-family: 'Pacifico', cursive;">"Eres mi mejor victoria cada día"</p>
+                
+                <button onclick="location.reload()" style="margin-top: 30px; padding: 15px 45px; background: linear-gradient(45deg, #ffd700, #ffcc00); border: none; border-radius: 30px; font-weight: bold; cursor: pointer; color: #333; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: transform 0.2s;">
+                    Volver al Menú
+                </button>
             </div>
-            <p style="font-size: 1.6rem; font-style: italic; margin-top: 15px;">"Eres el mejor gol de mi vida"</p>
-            <button onclick="location.reload()" style="margin-top:25px; padding:15px 40px; font-size:1.2rem; cursor:pointer; background:linear-gradient(45deg, #ffd700, #ffcc00); border:none; border-radius:30px; font-weight:bold; color:black; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">Volver al menú</button>
-        </div>
-    `;
+        `;
+    }
 }
