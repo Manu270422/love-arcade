@@ -1,7 +1,7 @@
 // ==========================================================
 // 🎵 CONFIGURACIÓN DE AUDIO MATCH-3
 // ==========================================================
-const match3Music = new Audio('games/match3/assets/musica-match3.mp3');
+const match3Music = new Audio('games/match3/assets/music/musica-match3.mp3');
 match3Music.loop = true;
 match3Music.volume = 0.4;
 
@@ -16,11 +16,11 @@ let isProcessing = false;
 
 // 🖼️ Nuestras fotos (Rutas absolutas)
 const images = [
-    'games/match3/assets/foto1.png',
-    'games/match3/assets/foto2.png',
-    'games/match3/assets//foto3.png',
-    'games/match3/assets/foto4.png',
-    'games/match3/assets/foto5.png'
+    'games/match3/assets/img/foto1.png',
+    'games/match3/assets/img/foto2.png',
+    'games/match3/assets/img/foto3.png',
+    'games/match3/assets/img/foto4.png',
+    'games/match3/assets/img/foto5.png'
 ];
 
 // ==========================================================
@@ -238,7 +238,7 @@ function endGame() {
     match3Music.pause(); 
     match3Music.currentTime = 0;
 
-    const victorySound = new Audio('games/match3/assets/victoria.mp3');
+    const victorySound = new Audio('games/match3/assets/music/victoria.mp3');
     victorySound.volume = 0.6;
     victorySound.play().catch(() => {});
     

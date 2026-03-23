@@ -1,7 +1,7 @@
 // ==========================================================
 // 🎵 CONFIGURACIÓN DE AUDIO INICIAL
 // ==========================================================
-const bgMusic = new Audio('games/runner/assets/musica-romantica.mp3');
+const bgMusic = new Audio('games/runner/assets/music/musica-romantica.mp3');
 bgMusic.loop = true;
 bgMusic.volume = 0.4; 
 
@@ -51,10 +51,10 @@ const imgBg = new Image();
 
 const cargarImagenes = () => {
     const imagenes = [
-        { img: imgPlayer, src: 'games/runner/assets/player.png' },
-        { img: imgHeart,  src: 'games/runner/assets/heart.png' },
-        { img: imgObs,    src: 'games/runner/assets/obstacle.png' },
-        { img: imgBg,     src: 'games/runner/assets/background.jpg' }
+        { img: imgPlayer, src: 'games/runner/assets/img/player.png' },
+        { img: imgHeart,  src: 'games/runner/assets/img/heart.png' },
+        { img: imgObs,    src: 'games/runner/assets/img/obstacle.png' },
+        { img: imgBg,     src: 'games/runner/assets/img/background.jpg' }
     ];
 
     const promesas = imagenes.map(item => {
@@ -289,8 +289,8 @@ function desbloquearRecuerdo() {
                 <h2 style="color: #ffd700; font-size: 2.5rem; margin-bottom: 20px; text-shadow: 0 0 10px rgba(255,215,0,0.5);">¡Lo lograste, mi amor! 💛</h2>
                 
                 <div class="photo-frame" style="display: inline-block; padding: 10px; background: white; border-radius: 15px; box-shadow: 0 0 30px rgba(255,215,0,0.6);">
-                    <img src="games/runner/assets/tu-y-yo.jpg" 
-                         style="width: 100%; max-width: 350px; border-radius: 10px; display: block;"
+                    <img src="games/runner/assets/img/tu-y-yo.jpg?v=${Date.now()}" 
+                         style="width: 100%; max-width: 350px; border-radius: 10px;">
                          onerror="this.src='https://via.placeholder.com/350x450?text=Te+Amo+Mucho'; console.log('Error cargando la foto real');">
                 </div>
 
