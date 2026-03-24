@@ -1,0 +1,194 @@
+/* ==========================================================
+   🧩 PUZZLE LOVE: EDICIÓN NIVEL PRO (CON NAVEGACIÓN)
+   ========================================================== */
+
+:root {
+    --gold: #ffd700;
+    --gold-gradient: linear-gradient(45deg, #ffd700, #ff8c00);
+    --romantic-bg: rgba(0, 0, 0, 0.7);
+    --soft-white: rgba(255, 255, 255, 0.3);
+    --transition-smooth: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* 🔙 BOTÓN VOLVER (AJUSTE DE JERARQUÍA MÁXIMA) */
+.btn-back-home {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 100001; /* Por encima del modal final (100000) */
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--soft-white);
+    color: white;
+    padding: 10px 18px;
+    border-radius: 50px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.btn-back-home:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+/* 🎮 CONTENEDOR DEL JUEGO */
+#puzzle-game {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 85vh;
+    padding: 20px;
+    box-sizing: border-box;
+    background: #1a1a1a;
+}
+
+/* 💖 FONDO ROMÁNTICO */
+.puzzle-background {
+    position: absolute;
+    inset: 0;
+    background: 
+        radial-gradient(circle at top, #ffecd2, transparent 60%),
+        radial-gradient(circle at bottom, #fcb69f, transparent 60%);
+    opacity: 0.3;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* 🖼️ EL TABLERO */
+#puzzle-board {
+    position: relative;
+    width: 90vw;
+    max-width: 400px;
+    aspect-ratio: 1 / 1;
+    z-index: 5;
+    background: url("games/puzzle/assets/img/nuestra_foto.jpg") center/cover no-repeat;
+    opacity: 0.3;
+    border: 4px solid var(--soft-white);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    touch-action: none;
+    transition: all 0.8s ease;
+}
+
+/* ✨ EFECTO FINAL */
+#puzzle-board.completed {
+    opacity: 1 !important;
+    transform: scale(1.03);
+    box-shadow: 0 0 50px rgba(255, 215, 0, 0.6);
+    border-color: var(--gold);
+}
+
+/* 🧩 PIEZAS */
+.puzzle-piece {
+    position: absolute;
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+    will-change: transform;
+    border-radius: 8px;
+    box-shadow: 2px 4px 12px rgba(0,0,0,0.5);
+    border: 1px solid var(--soft-white);
+    z-index: 10;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.puzzle-piece:hover { transform: scale(1.05); border-color: rgba(255, 255, 255, 0.8); }
+
+.puzzle-piece:active {
+    cursor: grabbing;
+    z-index: 100;
+    transform: scale(1.1) rotate(2deg);
+    box-shadow: 8px 20px 30px rgba(0,0,0,0.4);
+    border-color: var(--gold);
+}
+
+.puzzle-piece.correct {
+    z-index: 1;
+    box-shadow: none;
+    border: 0.5px solid rgba(255,255,255,0.1);
+    animation: flashSuccess 0.6s ease-out;
+}
+
+/* 💬 MENSAJES DINÁMICOS */
+#puzzleMessage {
+    position: absolute;
+    top: 12%;
+    left: 50%;
+    transform: translate(-50%, -20px);
+    background: var(--romantic-bg);
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 50px;
+    backdrop-filter: blur(5px);
+    border: 1px solid var(--soft-white);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: var(--transition-smooth);
+    z-index: 20;
+}
+
+#puzzleMessage.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* 🏆 PANTALLA FINAL */
+#puzzleFinal {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    padding: 30px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s ease;
+    z-index: 100000; /* Un escalón por debajo del botón Volver */
+}
+
+#puzzleFinal.show { opacity: 1; pointer-events: all; }
+
+#puzzleBtn {
+    margin-top: 25px;
+    padding: 14px 35px;
+    border-radius: 50px;
+    border: none;
+    background: var(--gold-gradient);
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* 🎨 AJUSTE DE CONTRASTE PARA EL BOTÓN VOLVER */
+#puzzleFinal.show ~ .btn-back-home {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--gold);
+}
+
+/* 🎭 ANIMACIÓN */
+@keyframes flashSuccess {
+    0% { filter: brightness(1); box-shadow: 0 0 20px var(--gold); }
+    50% { filter: brightness(1.4); box-shadow: 0 0 40px var(--gold); }
+    100% { filter: brightness(1); box-shadow: none; }
+}
+
+/* 📱 RESPONSIVE */
+@media (max-width: 480px) {
+    #puzzle-board { max-width: 330px; }
+    .btn-back-home { top: 10px; left: 10px; padding: 8px 12px; font-size: 0.8rem; }
+}

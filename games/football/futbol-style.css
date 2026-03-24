@@ -1,0 +1,215 @@
+/* ==========================================================
+   🧠 VARIABLES GLOBALES
+   ========================================================== */
+:root {
+    --gold: #ffd700;
+    --gold-gradient: linear-gradient(45deg, #ffd700, #ff8c00);
+    --romantic-pink: #ff6b6b;
+    --dark-bg: rgba(0, 0, 0, 0.7);
+    --glass-effect: blur(5px);
+    --poppins: 'Poppins', sans-serif;
+    --pacifico: 'Pacifico', cursive;
+}
+
+/* ==========================================================
+   ⚽ CONTENEDOR PRINCIPAL
+   ========================================================== */
+#futbol-game {
+    position: relative; /* Para que los absolutos se queden dentro */
+    overflow: hidden;   /* Evita que el resplandor romántico cree scroll */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    min-height: 100vh;
+    background: radial-gradient(circle, #2e7d32 0%, #1b5e20 100%);
+}
+
+/* 💖 1. FONDO ROMÁNTICO DINÁMICO */
+.futbol-background {
+    position: absolute;
+    inset: 0;
+    background: 
+        radial-gradient(circle at top left, #ffecd2, transparent 50%),
+        radial-gradient(circle at bottom right, #fcb69f, transparent 50%);
+    opacity: 0.3;
+    z-index: 0;
+    pointer-events: none; /* No interfiere con los clics */
+}
+
+/* ==========================================================
+   🎮 ELEMENTOS DEL JUEGO
+   ========================================================== */
+
+#futbolCanvas {
+    position: relative;
+    z-index: 1; /* Por encima del fondo romántico */
+    
+    /* 📱 Responsive */
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 8 / 5;
+    
+    /* ⚡ Control Táctil */
+    touch-action: none;
+    
+    /* 🎨 Estética */
+    background: #2e7d32;
+    border: 4px solid var(--gold);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+    cursor: crosshair;
+    
+    /* 🌸 5. Micro-animación */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#futbolCanvas:hover {
+    transform: scale(1.01);
+    box-shadow: 0 20px 45px rgba(0,0,0,0.8);
+}
+
+/* 📊 MARCADOR (HUD) */
+#futbolHUD {
+    position: relative;
+    z-index: 2;
+    margin-top: 25px;
+    display: flex;
+    gap: 30px;
+    padding: 12px 30px;
+    background: var(--dark-bg);
+    border-radius: 50px;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    backdrop-filter: var(--glass-effect);
+    
+    font-family: var(--poppins);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #fff;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+    animation: fadeInHUD 0.8s ease-out;
+}
+
+#goals { color: var(--gold); }
+#attempts { color: var(--romantic-pink); }
+
+/* ==========================================================
+   💬 3. MENSAJES ROMÁNTICOS (DURANTE EL JUEGO)
+   ========================================================== */
+#loveMessage {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -20px);
+    
+    background: var(--dark-bg);
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 25px;
+    border: 1px solid var(--romantic-pink);
+    backdrop-filter: var(--glass-effect);
+    
+    font-family: var(--poppins);
+    font-size: 1.1rem;
+    text-align: center;
+    white-space: nowrap;
+    
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 2;
+}
+
+#loveMessage.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+/* ==========================================================
+   💛 4. PANTALLA FINAL
+   ========================================================== */
+#finalScreen {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    text-align: center;
+    color: #fff;
+    
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s ease;
+    z-index: 10; /* Siempre al frente */
+}
+
+#finalScreen.show {
+    opacity: 1;
+    pointer-events: all;
+}
+
+#finalScreen h2 {
+    font-family: var(--pacifico);
+    font-size: 2.5rem;
+    color: var(--gold);
+    margin-bottom: 15px;
+}
+
+.final-photo {
+    width: 80%;
+    max-width: 350px;
+    border: 5px solid #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    margin: 20px 0;
+}
+
+#loveButton {
+    margin-top: 25px;
+    padding: 15px 35px;
+    border: none;
+    border-radius: 40px;
+    
+    background: var(--gold-gradient);
+    color: #000;
+    font-family: var(--poppins);
+    font-weight: 800;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+    transition: all 0.3s ease;
+}
+
+#loveButton:hover {
+    transform: scale(1.1) translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.6);
+}
+
+/* ==========================================================
+   🎭 ANIMACIONES Y QUERIES
+   ========================================================== */
+@keyframes fadeInHUD {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 480px) {
+    #futbolHUD {
+        gap: 15px;
+        font-size: 0.9rem;
+        padding: 10px 20px;
+    }
+    
+    #finalScreen h2 { font-size: 1.8rem; }
+    
+    #futbolCanvas { border-width: 2px; }
+}

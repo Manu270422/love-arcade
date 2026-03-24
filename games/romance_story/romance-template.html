@@ -1,8 +1,22 @@
-<!-- Fragmento HTML para insertar dinámicamente -->
+<button class="btn-back-home" onclick="location.reload()">
+    <i class="fas fa-arrow-left"></i>
+    <span>Volver</span>
+</button>
+
 <div id="romance-game">
+  
   <div id="romance-background"></div>
+
   <div id="romance-dialogue">
     <p id="romance-text"></p>
+    
     <div id="romance-options"></div>
   </div>
+
+  <div id="finalScreenRomance" class="hidden-final">
+      <h2 style="font-family: 'Pacifico', cursive;">Nuestra Historia continúa...</h2>
+      <p>Cada decisión me lleva siempre a ti. ❤️</p>
+      <button class="loveButton" onclick="location.reload()">REPETIR HISTORIA</button>
+  </div>
+
 </div>

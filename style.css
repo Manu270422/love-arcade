@@ -1,11 +1,18 @@
+/* ==========================================================
+   🎨 VARIABLES GLOBALES
+   ========================================================== */
 :root {
   --bg-gradient: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee);
   --card-bg: rgba(255, 255, 255, 0.25);
   --border-glass: rgba(255, 255, 255, 0.4);
   --text-color: #fff;
   --accent: #ffd700;
+  --back-btn-bg: rgba(255, 255, 255, 0.2);
 }
 
+/* ==========================================================
+   RESET & ESTRUCTURA BASE
+   ========================================================== */
 * {
   margin: 0;
   padding: 0;
@@ -24,6 +31,9 @@ body {
   overflow-x: hidden;
 }
 
+/* ==========================================================
+   🏠 HEADER & LOGO
+   ========================================================== */
 header {
   text-align: center;
   padding: 40px 20px;
@@ -48,6 +58,9 @@ header h1 {
   100% { transform: scale(1); }
 }
 
+/* ==========================================================
+   🎮 GRID DE JUEGOS (MENÚ PRINCIPAL)
+   ========================================================== */
 .game-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -88,6 +101,53 @@ header h1 {
   line-height: 1.2;
 }
 
+.locked {
+  opacity: 0.4;
+  cursor: not-allowed;
+  filter: grayscale(1);
+}
+
+/* ==========================================================
+   🚀 COMPONENTES DE NAVEGACIÓN
+   ========================================================== */
+
+/* Botón Volver al Inicio Estético */
+.btn-back-home {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 99999; /* Por encima de TODO */
+    background: var(--back-btn-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--border-glass);
+    color: white;
+    padding: 10px 18px;
+    border-radius: 50px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    text-decoration: none;
+}
+
+.btn-back-home:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: translateX(5px); /* Pequeño desplazamiento lateral */
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+.btn-back-home i {
+    font-size: 1.1rem;
+    color: var(--accent); /* Icono dorado para resaltar */
+}
+
+/* Floating Music Button */
 .music-btn {
   position: fixed;
   bottom: 30px;
@@ -101,6 +161,7 @@ header h1 {
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   cursor: pointer;
   transition: 0.3s;
   z-index: 100;
@@ -108,10 +169,45 @@ header h1 {
 
 .music-btn:hover {
   transform: rotate(20deg) scale(1.1);
+  background: rgba(255, 255, 255, 0.4);
 }
 
-.locked {
-  opacity: 0.4;
-  cursor: not-allowed;
-  filter: grayscale(1);
+/* ==========================================================
+   📱 RESPONSIVE DESIGN
+   ========================================================== */
+
+@media (max-width: 768px) {
+    /* Ajuste botón volver */
+    .btn-back-home {
+        top: 15px;
+        left: 15px;
+        padding: 8px 14px;
+        font-size: 0.85rem;
+    }
+
+    /* Ajuste HUD / Marcadores */
+    #futbolHUD {
+        gap: 15px;
+        font-size: 0.9rem;
+        padding: 10px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 2.2rem;
+    }
+    
+    .logo {
+        font-size: 2.8rem;
+    }
+
+    .btn-back-home span {
+        display: none; /* En pantallas muy pequeñas solo dejamos el icono */
+    }
+
+    .btn-back-home {
+        padding: 10px;
+        border-radius: 50%; /* Se vuelve circular */
+    }
 }

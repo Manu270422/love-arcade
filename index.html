@@ -1,60 +1,62 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  
-  <title>Nuestro Mundo 🎮💛</title>
-  
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>Nuestro Mundo 🎮💛</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <link rel="icon" href="data:,">
+    
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <header>
-    <h1>Nuestro Mundo</h1>
-    <div class="logo"><i class="fas fa-heart"></i></div>
-  </header>
+    <header>
+        <h1>Nuestro Mundo</h1>
+        <div class="logo"><i class="fas fa-heart"></i></div>
+    </header>
 
-  <main class="game-grid" id="main-container">
-    <div class="card" onclick="loadGame('runner')">
-      <i class="fas fa-running"></i>
-      <h3>Aventura de Corazones</h3>
+    <main class="game-grid" id="main-container">
+        <div class="card" onclick="loadGame('runner')">
+            <i class="fas fa-running"></i>
+            <h3>Aventura de Corazones</h3>
+        </div>
+
+        <div class="card" onclick="loadGame('romance_story')">
+            <i class="fas fa-book-open"></i>
+            <h3>Nuestra Historia</h3>
+        </div>
+
+        <div class="card" onclick="loadGame('match3')">
+            <i class="fas fa-candy-cane"></i>
+            <h3>Match de Recuerdos</h3>
+        </div>
+
+        <div class="card" onclick="loadGame('football')">
+            <i class="fas fa-futbol"></i>
+            <h3>Penalty Love</h3>
+        </div>
+
+        <div class="card" onclick="loadGame('puzzle')">
+            <i class="fas fa-puzzle-piece"></i>
+            <h3>Piezas de Nosotros</h3>
+        </div>
+
+        <div class="card locked">
+            <i class="fas fa-trophy"></i>
+            <h3>Galería & Logros</h3>
+        </div>
+    </main>
+
+    <div class="music-btn" onclick="toggleMusic()">
+        <i id="music-icon" class="fas fa-music"></i>
     </div>
 
-    <div class="card" onclick="loadGame('romance_story')">
-      <i class="fas fa-book-open"></i>
-      <h3>Nuestra Historia</h3>
-    </div>
-
-    <div class="card" onclick="loadGame('match3')">
-      <i class="fas fa-candy-cane"></i>
-      <h3>Match de Recuerdos</h3>
-    </div>
-
-    <div class="card" onclick="loadGame('futbol')">
-      <i class="fas fa-futbol"></i>
-      <h3>Penalty Love</h3>
-    </div>
-
-    <div class="card" onclick="loadGame('puzzle')">
-      <i class="fas fa-puzzle-piece"></i>
-      <h3>Piezas de Nosotros</h3>
-    </div>
-
-    <div class="card locked">
-      <i class="fas fa-trophy"></i>
-      <h3>Galería & Logros</h3>
-    </div>
-  </main>
-
-  <div class="music-btn" onclick="toggleMusic()">
-    <i id="music-icon" class="fas fa-music"></i>
-  </div>
-
-  <script src="main.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>

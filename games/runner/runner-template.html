@@ -1,18 +1,28 @@
+<button class="btn-back-home" onclick="location.reload()">
+    <i class="fas fa-arrow-left"></i>
+    <span>Volver</span>
+</button>
+
 <div id="runner-game">
   <div class="runner-container">
-
-    <canvas id="runnerCanvas"></canvas>
 
     <div id="runnerHUD">
       <div class="hud-item">✨ <span id="score">0</span></div>
       <div class="hud-item">❤️ <span id="lives">3</span></div>
     </div>
 
-    <!-- Overlay inicio -->
+    <canvas id="runnerCanvas"></canvas>
+
     <div id="startScreen">
-      <h1>💛 Para ti, mi amor 💛</h1>
-      <p>Toca la pantalla o presiona espacio para empezar</p>
-      <button id="startBtn">Jugar</button>
+      <h1 style="font-family: 'Pacifico', cursive; color: var(--accent);">💛 Corriendo hacia ti 💛</h1>
+      <p style="font-family: 'Poppins'; margin-bottom: 20px;">Toca la pantalla o presiona espacio para saltar obstáculos</p>
+      <button id="startBtn" class="loveButton">EMPEZAR AVENTURA ❤️</button>
+    </div>
+
+    <div id="victoryScreen" class="hidden-final">
+        <h2 style="font-family: 'Pacifico', cursive;">¡Eres mi meta final! 🏁</h2>
+        <p>No importa qué tan largo sea el camino, siempre elegiría correrlo contigo.</p>
+        <button class="loveButton" onclick="location.reload()">VOLVER AL INICIO</button>
     </div>
 
   </div>

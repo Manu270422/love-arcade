@@ -1,6 +1,6 @@
 /**
  * 🎮 Sistema de Navegación Dinámica Pro
- * Carga cualquier juego (Runner, Match-3, Novela, etc.) de forma modular.
+ * Carga cualquier juego (Runner, Match-3, Romance, Fútbol, Puzzle) de forma modular.
  */
 
 async function loadGame(game) {
@@ -17,12 +17,12 @@ async function loadGame(game) {
     `;
 
     // Detener música del HUB si está sonando para no solapar audios
-    if (musicOn) {
+    if (musicOn && globalBgMusic) {
         globalBgMusic.pause();
     }
 
     // ==========================================================
-    // 🗺️ DICCIONARIO DE RUTAS (ACTUALIZADO)
+    // 🗺️ DICCIONARIO DE RUTAS (CONEXIÓN TOTAL)
     // ==========================================================
     const gamePaths = {
         'runner': {
@@ -42,6 +42,18 @@ async function loadGame(game) {
             css: 'games/romance_story/romance-style.css',
             js: 'games/romance_story/romance-main.js',
             id: 'romance-style'
+        },
+        'football': {
+            html: 'games/football/futbol-template.html',
+            css: 'games/football/futbol-style.css',
+            js: 'games/football/futbol-main.js',
+            id: 'futbol-style'
+        },
+        'puzzle': {
+            html: 'games/puzzle/puzzle-template.html',
+            css: 'games/puzzle/puzzle-style.css',
+            js: 'games/puzzle/puzzle-main.js',
+            id: 'puzzle-style'
         }
     };
 
@@ -68,14 +80,13 @@ async function loadGame(game) {
             document.head.appendChild(link);
 
             // 4. Inyección del Script del Juego
-            // Borramos scripts anteriores del mismo juego para evitar conflictos
             const oldScript = document.querySelector(`script[src="${selectedGame.js}"]`);
             if (oldScript) oldScript.remove();
 
             const script = document.createElement('script');
             script.src = selectedGame.js;
             script.type = 'text/javascript';
-            // Insertamos el script al final del body para asegurar que el DOM del juego ya existe
+            // Cargamos el script al final del body
             document.body.appendChild(script);
 
             console.log(`🚀 Juego [${game.toUpperCase()}] cargado con éxito.`);
@@ -94,7 +105,6 @@ async function loadGame(game) {
             `;
         }
     } else {
-        // Fallback para juegos no implementados o errores de nombre
         container.innerHTML = `
             <div style="text-align:center; padding: 100px; color: white;">
                 <h2 style="font-family: 'Poppins';">El juego "${game}" está en el taller de Cupido... 🛠️</h2>
@@ -120,7 +130,9 @@ function toggleMusic() {
     
     if(musicOn) {
         if (icon) icon.className = 'fas fa-volume-up';
-        globalBgMusic.play().catch(e => console.log("El navegador bloqueó el auto-play:", e));
+        globalBgMusic.play().catch(e => {
+            console.log("Audio del Hub no encontrado o bloqueado.");
+        });
         console.log("🎵 Música del Hub: ON");
     } else {
         if (icon) icon.className = 'fas fa-music';

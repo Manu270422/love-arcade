@@ -112,7 +112,7 @@ function typeWriter(text, callback) {
 }
 
 // ==========================================================
-// 🏆 SISTEMA DE RECOMPENSAS: INGENIERO ROMÁNTICO
+// 🏆 SISTEMA DE RECOMPENSAS
 // ==========================================================
 
 function desbloquearRecuerdoEspecial(key) {
