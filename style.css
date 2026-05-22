@@ -107,6 +107,15 @@ header h1 {
   filter: grayscale(1);
 }
 
+/* Ocultar las pantallas de "final" hasta que el juego decida mostrarlas.
+   Usada por `#victoryScreen` (runner), `#finalScreenMatch` (match3) y
+   `#finalScreenRomance` (romance_story). Sin esta regla el bloque se
+   renderiza como visible en el DOM y aunque quede tapado por el fondo del
+   juego, sigue siendo foco de teclado y ocupa espacio en el flujo flex. */
+.hidden-final {
+  display: none;
+}
+
 /* ==========================================================
    🚀 COMPONENTES DE NAVEGACIÓN
    ========================================================== */
